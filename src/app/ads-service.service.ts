@@ -9,7 +9,7 @@ export class AdsServiceService {
 
   getCampaign (params: any) {
     params = {
-      adAccountId: 'act_1234678'
+      adAccountId: params
     }
     let  paramOptions = new HttpParams({
       fromObject: params
@@ -19,10 +19,10 @@ export class AdsServiceService {
 
   getAdSets (params: any) {
 
-    let  paramOptions = new HttpParams({
-      fromObject: params
-    });
-    return this.http.get(`http://localhost:4000/getAdSets`, { params: paramOptions })
+    params = {
+      campaignId: params
+    }
+    return this.http.get(`http://localhost:4000/getAdSets`, { params: params })
   }
 
   getAdCreatives (params: any) {
@@ -41,31 +41,20 @@ export class AdsServiceService {
   }
 
   createCampaigns (reqBody: any) {
-    let  paramOptions = new HttpParams({
-      fromObject: reqBody
-    });
-    return this.http.post(`http://localhost:4000/getAds`, paramOptions)
-
+    return this.http.post(`http://localhost:4000/createCampaign`, reqBody)
   }
+
     createAdsets (reqBody: any) {
-      let  paramOptions = new HttpParams({
-        fromObject: reqBody
-      });
-      return this.http.post(`http://localhost:4000/getAds`, paramOptions)
+      return this.http.post(`http://localhost:4000/createAdSet`, reqBody)
     }
 
     createAdCreatives (reqBody: any) {
-      let  paramOptions = new HttpParams({
-        fromObject: reqBody
-      });
-      return this.http.post(`http://localhost:4000/getAds`, paramOptions)
+
+      return this.http.post(`http://localhost:4000/createAdCreative`, reqBody)
     }
 
     createAds (reqBody: any) {
-      let  paramOptions = new HttpParams({
-        fromObject: reqBody
-      });
-      return this.http.post(`http://localhost:4000/getAds`, paramOptions)
+      return this.http.post(`http://localhost:4000/createAd`, reqBody)
     }
   
 }

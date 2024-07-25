@@ -1,0 +1,23 @@
+<p>campaign works!</p>
+<div class="modal-wrapper">
+    <section class="modal" #modal>
+      <button>ADD</button>
+      <label for="name">Name: </label>
+    <input id="name" formControlName = "name">
+
+    <label for="objective">Objective: </label>
+    <input id="objective"  formControlName = "objective">
+
+    <label for="specialAdCategories">Special Ad Categories: </label>
+    <input id="specialAdCategories" formControlName = "specialAdCategories">
+
+    <label for="status">Status: </label>
+    <input id="status" formControlName = "status">
+      <ng-content></ng-content>
+    </section>
+  
+    <div class="modal-overlay" #overlay ></div>
+  </div>
+<form [formGroup]="campaignForm">
+    
+</form>

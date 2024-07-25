@@ -1,30 +1,32 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdsComponentComponent } from './ads-component/ads-component.component';
 
 import { HttpClientModule } from '@angular/common/http';
-
-
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CampaignComponent } from './campaign/campaign.component';
+import { AdsetsComponent } from './adsets/adsets.component';
+import { AdcreativesComponent } from './adcreatives/adcreatives.component';
+import { AdsComponent } from './ads/ads.component';
 @NgModule({
   declarations: [
     AppComponent,
-    AdsComponentComponent
+    AdsComponentComponent,
+    CampaignComponent,
+    AdsetsComponent,
+    AdcreativesComponent,
+    AdsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatSelectModule
+    ReactiveFormsModule,
+    FormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
