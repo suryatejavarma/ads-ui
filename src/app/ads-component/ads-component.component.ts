@@ -14,6 +14,10 @@ export class AdsComponentComponent implements OnInit {
   adCreatives: any;
   ads: any;
   showCampaign: boolean = false;
+  isCampaignClicked: boolean = false;
+  isAdsetsClicked: boolean = false;
+  isCreativeClicked: boolean = false;
+  isAdClicked: boolean = false;
   form = {
     name: '',
     status: '',
@@ -80,7 +84,7 @@ export class AdsComponentComponent implements OnInit {
         });
       }
     })
-    this.closebutton.nativeElement.click();
+    this.display="none";
   }
 
   openModal() {
@@ -99,6 +103,7 @@ export class AdsComponentComponent implements OnInit {
         });
       }
     })
+    this.display="none";
   }
 
   createAdSets() {
@@ -109,6 +114,7 @@ export class AdsComponentComponent implements OnInit {
         });
       }
     })
+    this.display="none";
   }
 
   createAdCreative() {
@@ -119,6 +125,7 @@ export class AdsComponentComponent implements OnInit {
         });
       }
     })
+    this.display="none";
   }
 
   selectedCampaignId(id: any) {
@@ -127,5 +134,33 @@ export class AdsComponentComponent implements OnInit {
 
   closeModal() {
     this.display="none";
+  }
+
+  campaignClicked() {
+    this.isCampaignClicked = true;
+    this.isAdsetsClicked = false;
+    this.isAdClicked = false;
+    this.isCreativeClicked = false;
+  }
+
+  adSetsClicked() {
+    this.isCampaignClicked = false;
+    this.isAdsetsClicked = true;
+    this.isAdClicked = false;
+    this.isCreativeClicked = false;
+  }
+
+  creativeClicked() {
+    this.isCampaignClicked = false;
+    this.isAdsetsClicked = false;
+    this.isAdClicked = false;
+    this.isCreativeClicked = true;
+  }
+
+  adsClicked() {
+    this.isCampaignClicked = false;
+    this.isAdsetsClicked = false;
+    this.isAdClicked = true;
+    this.isCreativeClicked = false;
   }
 }
