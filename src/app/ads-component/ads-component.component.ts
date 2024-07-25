@@ -124,4 +124,8 @@ export class AdsComponentComponent implements OnInit {
   selectedCampaignId(id: any) {
     console.log('--->', id)
   }
+
+  closeModal() {
+    this.display="none";
+  }
 }

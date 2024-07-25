@@ -183,7 +183,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="adsModalLongTitle">Modal title</h5>
-                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" #closebutton data-dismiss="modal" aria-label="Close" (click)="closeModal()">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -223,7 +223,7 @@
                       </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onCloseHandled()">Close</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
                   <button type="button" class="btn btn-primary" (click)="createAds()">Add</button>
                 </div>
               </div>
