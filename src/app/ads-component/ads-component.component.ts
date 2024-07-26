@@ -18,6 +18,11 @@ export class AdsComponentComponent implements OnInit {
   isAdsetsClicked: boolean = false;
   isCreativeClicked: boolean = false;
   isAdClicked: boolean = false;
+
+  selectedCreative: any = '';
+  selectedCamapign: any = '';
+  selectedAdset: any = '';
+  selectedAd: any = '';
   form = {
     name: '',
     status: '',
@@ -32,7 +37,7 @@ export class AdsComponentComponent implements OnInit {
     bidAmount: '',
     billingEvent: '',
     optimizationGoal: '',
-    campaign_id: '',
+    campaignId: '',
     status: '',
     countries: ''
   }
@@ -95,6 +100,8 @@ export class AdsComponentComponent implements OnInit {
   }
 
   createAds() {
+    this.adsForm.adsetId = this.selectedAdset;
+    this.adsForm.creativeId = this.selectedCreative;
     this.adsService.createAds(this.adsForm).subscribe((res) => {
       console.log(res)
       if (res) {
@@ -107,6 +114,7 @@ export class AdsComponentComponent implements OnInit {
   }
 
   createAdSets() {
+    this.adSetsForm.campaignId = this.selectedCamapign
     this.adsService.createAdsets(this.adSetsForm).subscribe((res) => {
       if(res) {
         this.adsService.getAdSets('').subscribe((resp) => {
@@ -144,6 +152,8 @@ export class AdsComponentComponent implements OnInit {
   }
 
   adSetsClicked() {
+    console.log('---->sc', this.selectedCamapign);
+    
     this.isCampaignClicked = false;
     this.isAdsetsClicked = true;
     this.isAdClicked = false;
