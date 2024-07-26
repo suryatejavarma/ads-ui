@@ -57,6 +57,10 @@ export class AdsComponentComponent implements OnInit {
     status: ''
   }
 
+  objectives = ['OUTCOME_LEADS', 'OUTCOME_TRAFFIC', 'OUTCOME_SALES', 'OUTCOME_ENGAGEMENT', 'OUTCOME_AWARENESS', 'OUTCOME_APP_PROMOTION'];
+  billingEvent = ['IMPRESSIONS', 'LINK_CLICKS', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'VIDEO_VIEWS'];
+  optimizationGoal = ['REACH', 'REPLIES', 'SOCIAL_IMPRESSIONS', 'THRUPLAY', 'PAGE_LIKES', 'LINK_CLICKS', 'LEAD_GENERATION']
+
   constructor(private adsService: AdsServiceService) {}
 
   ngOnInit(): void {
