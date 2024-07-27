@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdsServiceService } from '../ads-service.service';
 import * as bootstrap from 'bootstrap';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-ads-component',
@@ -129,7 +130,15 @@ export class AdsComponentComponent implements OnInit {
   createAds() {
     this.adsForm.adsetId = this.selectedAdset;
     this.adsForm.creativeId = this.selectedCreative;
-    this.adsService.createAds(this.adsForm).subscribe((res) => {
+    this.adsService.createAds(this.adsForm).pipe(
+      catchError((err: any) => {
+        console.log('---->', err.error);
+        this.showError = true;
+        this.errorTitle = err.error.error.error_user_title;
+        this.errorMsg = err.error.error.error_user_msg;
+        return throwError('No payment method')
+      })
+    ).subscribe((res) => {
       console.log(res);
       if (res) {
         this.adsService.getAds('').subscribe((resp) => {
@@ -138,14 +147,6 @@ export class AdsComponentComponent implements OnInit {
         this.showError = false;
       }
     });
-    if (this.ads.length) {
-      this.showError = false;
-    } else {
-      this.showError = true;
-      this.errorTitle = 'No Payment methog';
-      this.errorMsg = 'Please Add payment method';
-    }
-    console.log('---->', this.showError);
     this.display = 'none';
   }
 
