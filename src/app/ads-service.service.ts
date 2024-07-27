@@ -54,7 +54,6 @@ export class AdsServiceService {
     }
 
     createAds (reqBody: any) {
-      return this.http.post(`http://localhost:4000/createAd`, reqBody)
-    }
-  
-}
+        return this.http.post(`http://localhost:4000/createAd`, reqBody) 
+    }      
+} 

@@ -38,6 +38,12 @@
             </select>
             <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()" (click)="adsClicked()" data-target="#campaignModalLongTitle">Create Ad</button>
           </div>
+          <div *ngIf="showError" class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">{{errorTitle}}</h4>
+            <p>{{errorMsg}}</p>
+
+           
+          </div>
          
       </form>
 

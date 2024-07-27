@@ -18,7 +18,9 @@ export class AdsComponentComponent implements OnInit {
   isAdsetsClicked: boolean = false;
   isCreativeClicked: boolean = false;
   isAdClicked: boolean = false;
-
+  errorMsg: string = '';
+  errorTitle: string = '';
+  showError: boolean = false;
   selectedCreative: any = '';
   selectedCamapign: any = '';
   selectedAdset: any = '';
@@ -27,8 +29,8 @@ export class AdsComponentComponent implements OnInit {
     name: '',
     status: '',
     objective: '',
-    specialAdCategory: ''
-  }
+    specialAdCategory: '',
+  };
   display = 'none';
 
   adSetsForm = {
@@ -39,27 +41,48 @@ export class AdsComponentComponent implements OnInit {
     optimizationGoal: '',
     campaignId: '',
     status: '',
-    countries: ''
-  }
+    countries: '',
+  };
 
   adCreativeForm = {
     name: '',
     link: '',
     message: '',
     enrollStatus: '',
-    status: ''
-  }
+    status: '',
+  };
 
   adsForm = {
     name: '',
     adsetId: '',
     creativeId: '',
-    status: ''
-  }
+    status: '',
+  };
 
-  objectives = ['OUTCOME_LEADS', 'OUTCOME_TRAFFIC', 'OUTCOME_SALES', 'OUTCOME_ENGAGEMENT', 'OUTCOME_AWARENESS', 'OUTCOME_APP_PROMOTION'];
-  billingEvent = ['IMPRESSIONS', 'LINK_CLICKS', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'VIDEO_VIEWS'];
-  optimizationGoal = ['REACH', 'REPLIES', 'SOCIAL_IMPRESSIONS', 'THRUPLAY', 'PAGE_LIKES', 'LINK_CLICKS', 'LEAD_GENERATION']
+  objectives = [
+    'OUTCOME_LEADS',
+    'OUTCOME_TRAFFIC',
+    'OUTCOME_SALES',
+    'OUTCOME_ENGAGEMENT',
+    'OUTCOME_AWARENESS',
+    'OUTCOME_APP_PROMOTION',
+  ];
+  billingEvent = [
+    'IMPRESSIONS',
+    'LINK_CLICKS',
+    'PAGE_LIKES',
+    'POST_ENGAGEMENT',
+    'VIDEO_VIEWS',
+  ];
+  optimizationGoal = [
+    'REACH',
+    'REPLIES',
+    'SOCIAL_IMPRESSIONS',
+    'THRUPLAY',
+    'PAGE_LIKES',
+    'LINK_CLICKS',
+    'LEAD_GENERATION',
+  ];
 
   constructor(private adsService: AdsServiceService) {}
 
@@ -68,13 +91,13 @@ export class AdsComponentComponent implements OnInit {
       this.campaigns = res;
     });
     this.adsService.getAdSets('').subscribe((res) => {
-      this.adSets = res
+      this.adSets = res;
     });
     this.adsService.getAdCreatives('').subscribe((res) => {
-      this.adCreatives = res
+      this.adCreatives = res;
     });
     this.adsService.getAds('').subscribe((res) => {
-      this.ads = res
+      this.ads = res;
     });
   }
 
@@ -84,20 +107,20 @@ export class AdsComponentComponent implements OnInit {
 
   createCampaign() {
     console.log('---->', this.form);
-    
+
     this.adsService.createCampaigns(this.form).subscribe((res) => {
-      console.log(res)
+      console.log(res);
       if (res) {
         this.adsService.getCampaign('').subscribe((resp) => {
           this.campaigns = resp;
         });
       }
-    })
-    this.display="none";
+    });
+    this.display = 'none';
   }
 
   openModal() {
-    this.display = "block";
+    this.display = 'block';
   }
   onCloseHandled() {
     this.closebutton.nativeElement.click();
@@ -107,45 +130,54 @@ export class AdsComponentComponent implements OnInit {
     this.adsForm.adsetId = this.selectedAdset;
     this.adsForm.creativeId = this.selectedCreative;
     this.adsService.createAds(this.adsForm).subscribe((res) => {
-      console.log(res)
+      console.log(res);
       if (res) {
         this.adsService.getAds('').subscribe((resp) => {
           this.ads = resp;
         });
+        this.showError = false;
       }
-    })
-    this.display="none";
+    });
+    if (this.ads.length) {
+      this.showError = false;
+    } else {
+      this.showError = true;
+      this.errorTitle = 'No Payment methog';
+      this.errorMsg = 'Please Add payment method';
+    }
+    console.log('---->', this.showError);
+    this.display = 'none';
   }
 
   createAdSets() {
-    this.adSetsForm.campaignId = this.selectedCamapign
+    this.adSetsForm.campaignId = this.selectedCamapign;
     this.adsService.createAdsets(this.adSetsForm).subscribe((res) => {
-      if(res) {
+      if (res) {
         this.adsService.getAdSets('').subscribe((resp) => {
           this.adSets = resp;
         });
       }
-    })
-    this.display="none";
+    });
+    this.display = 'none';
   }
 
   createAdCreative() {
     this.adsService.createAdCreatives(this.adCreativeForm).subscribe((res) => {
-      if(res) {
+      if (res) {
         this.adsService.getAdCreatives('').subscribe((resp) => {
           this.adCreatives = resp;
         });
       }
-    })
-    this.display="none";
+    });
+    this.display = 'none';
   }
 
   selectedCampaignId(id: any) {
-    console.log('--->', id)
+    console.log('--->', id);
   }
 
   closeModal() {
-    this.display="none";
+    this.display = 'none';
   }
 
   campaignClicked() {
@@ -157,7 +189,7 @@ export class AdsComponentComponent implements OnInit {
 
   adSetsClicked() {
     console.log('---->sc', this.selectedCamapign);
-    
+
     this.isCampaignClicked = false;
     this.isAdsetsClicked = true;
     this.isAdClicked = false;
