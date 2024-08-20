@@ -31,6 +31,8 @@ export class AdsComponentComponent implements OnInit {
     status: '',
     objective: '',
     specialAdCategory: '',
+    buyingType: '',
+    advCampaignBudget: ''
   };
   display = 'none';
 
@@ -84,7 +86,7 @@ export class AdsComponentComponent implements OnInit {
     'LINK_CLICKS',
     'LEAD_GENERATION',
   ];
-
+  buyingTypes = ['Auction', 'Reservation']
   constructor(private adsService: AdsServiceService) {}
 
   ngOnInit(): void {

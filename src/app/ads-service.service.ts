@@ -1,59 +1,92 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdsServiceService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  getCampaign (params: any) {
+  getCampaign(params: any) {
     params = {
-      adAccountId: params
-    }
-    let  paramOptions = new HttpParams({
-      fromObject: params
+      adAccountId: params,
+    };
+    let paramOptions = new HttpParams({
+      fromObject: params,
     });
-    return this.http.get(`http://localhost:4000/getCampaign`, { params: paramOptions })
+    return this.http.get(`http://localhost:4000/getCampaign`, {
+      params: paramOptions,
+    });
   }
 
-  getAdSets (params: any) {
-
+  getAdSets(params: any) {
     params = {
-      campaignId: params
-    }
-    return this.http.get(`http://localhost:4000/getAdSets`, { params: params })
+      campaignId: params,
+    };
+    return this.http.get(`http://localhost:4000/getAdSets`, { params: params });
   }
 
-  getAdCreatives (params: any) {
-
-    let  paramOptions = new HttpParams({
-      fromObject: params
+  getAdCreatives(params: any) {
+    let paramOptions = new HttpParams({
+      fromObject: params,
     });
-    return this.http.get(`http://localhost:4000/getAdCreatives`, { params: paramOptions })
-  }
-
-  getAds (params: any) {
-    let  paramOptions = new HttpParams({
-      fromObject: params
+    return this.http.get(`http://localhost:4000/getAdCreatives`, {
+      params: paramOptions,
     });
-    return this.http.get(`http://localhost:4000/getAds`, { params: paramOptions })
   }
 
-  createCampaigns (reqBody: any) {
-    return this.http.post(`http://localhost:4000/createCampaign`, reqBody)
+  getAds(params: any) {
+    let paramOptions = new HttpParams({
+      fromObject: params,
+    });
+    return this.http.get(`http://localhost:4000/getAds`, {
+      params: paramOptions,
+    });
   }
 
-    createAdsets (reqBody: any) {
-      return this.http.post(`http://localhost:4000/createAdSet`, reqBody)
-    }
+  getGoogleCampaign(params: any) {
+    return this.http.post(`http://localhost:4000/getGoogleCampaign`, '');
+  }
 
-    createAdCreatives (reqBody: any) {
+  getGoogleCampaignBudget(params: any) {
+    return this.http.post(`http://localhost:4000/getCampaignBudget`, '');
+  }
 
-      return this.http.post(`http://localhost:4000/createAdCreative`, reqBody)
-    }
+  getGoogleAdGroup(params: any) {
+    return this.http.post(`http://localhost:4000/getAdGroup`, '');
+  }
 
-    createAds (reqBody: any) {
-        return this.http.post(`http://localhost:4000/createAd`, reqBody) 
-    }      
-} 
+  getGoogleAd(params: any) {
+    return this.http.post(`http://localhost:4000/getGoogleAd`, '');
+  }
+  createCampaigns(reqBody: any) {
+    return this.http.post(`http://localhost:4000/createCampaign`, reqBody);
+  }
+
+  createAdsets(reqBody: any) {
+    return this.http.post(`http://localhost:4000/createAdSet`, reqBody);
+  }
+
+  createAdCreatives(reqBody: any) {
+    return this.http.post(`http://localhost:4000/createAdCreative`, reqBody);
+  }
+
+  createAds(reqBody: any) {
+    return this.http.post(`http://localhost:4000/createAd`, reqBody);
+  }
+
+  createGoogleCampaignBudget(reqBody: any) {
+    return this.http.post(`http://localhost:4000/createCampaignBudget`, reqBody);
+  }
+
+  createGoogleCampaigns(reqBody: any) {
+    return this.http.post(`http://localhost:4000/createGoogleCampaign`, reqBody);
+  }
+
+  createGoogleAdsets(reqBody: any) {
+    return this.http.post(`http://localhost:4000/createAdGroup`, reqBody);
+  }
+
+  createGoogleAds(reqBody: any) {
+    return this.http.post(`http://localhost:4000/createGoogleAd`, reqBody);
+  }
+}

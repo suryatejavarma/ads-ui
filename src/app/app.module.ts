@@ -11,6 +11,7 @@ import { CampaignComponent } from './campaign/campaign.component';
 import { AdsetsComponent } from './adsets/adsets.component';
 import { AdcreativesComponent } from './adcreatives/adcreatives.component';
 import { AdsComponent } from './ads/ads.component';
+import { GoogleAdsComponent } from './google-ads/google-ads.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,8 @@ import { AdsComponent } from './ads/ads.component';
     CampaignComponent,
     AdsetsComponent,
     AdcreativesComponent,
-    AdsComponent
+    AdsComponent,
+    GoogleAdsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,449 @@
+<div class="container">
+
+    <form class="form-inline">
+
+        <!-- <div class="form-group mb-2">
+            <label for="budget" class="sr-only">Creative Budget : </label>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                [(ngModel)]="selectedBudget" name="budget">
+                <option *ngFor="let budget of budgets" value={{budget.campaignBudget.id}}>{{budget.campaignBudget.name}}</option>
+            </select>
+            <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
+                (click)="budgetClicked()" data-target="#campaignModalLongTitle">Create Campaign Budget</button>
+        </div> -->
+
+
+        <div class="form-group mb-2">
+            <label for="campaign" class="sr-only">Campaigns</label>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                [(ngModel)]="selectedCamapign" name="campaign">
+                <option *ngFor="let campaign of campaigns" value={{campaign.campaign.id}}>{{campaign.campaign.name}}</option>
+            </select>
+            <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
+                (click)="campaignClicked()" data-target="#campaignModalLongTitle">Create Campaign</button>
+        </div>
+
+
+
+        <div class="form-group mb-2">
+            <label for="adgroup" class="sr-only">Ad Groups : </label>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                [(ngModel)]="selectedAdGroup" name="adgroup">
+                <option *ngFor="let adgroup of adgroups" value={{adgroup.adGroup.id}}>{{adgroup.adGroup.name}}</option>
+            </select>
+            <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
+                (click)="adSetsClicked()" data-target="#campaignModalLongTitle">Create Ad Groups</button>
+
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="ads" class="sr-only">Ads :</label>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                [(ngModel)]="selectedAd" name="ad">
+                <option *ngFor="let ad of ads" value={{ad.ad.id}}>{{ad.ad.name}}</option>
+            </select>
+            <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
+                (click)="adsClicked()" data-target="#campaignModalLongTitle">Create Ad</button>
+        </div>
+        <div *ngIf="showError" class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">{{errorTitle}}</h4>
+            <p>{{errorMsg}}</p>
+
+
+        </div>
+
+    </form>
+
+    <div class="modal" id="campaignModalLongTitle" tabindex="-1" role="dialog" aria-labelledby="campaignModalLongTitle"
+        aria-hidden="true" [ngStyle]="{'display':display}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isCampaignClicked">Create Campaign</h5>
+                    <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isAdGroupClicked">Creta Ad Group</h5>
+                    <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isBudgetClicked">Create Campaign Budget
+                    </h5>
+                    <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isAdClicked">Create Ad</h5>
+                    <button type="button" class="close" #closebutton data-dismiss="modal" (click)="closeModal()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div *ngIf="isCampaignClicked">
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Budget Name: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="form.budgetName" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Delivery Method: </label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    id="obj" [(ngModel)]="form.deliveryMethod" name="amount">
+                                    <option value="STANDARD">STANDARD</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount: </label>
+                                <input type="text" class="form-control" id="msg" aria-describedby="msg"
+                                    [(ngModel)]="form.amount" name="amount">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="form.name" name="name">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="obj" class="sr-only">Objectives: </label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    id="obj" [(ngModel)]="form.objectives" name="obj">
+                                    <option *ngFor="let objective of objective" value={{objective}}>{{objective}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="advertisingChannelType" class="sr-only">Advertising Channel Type: </label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    id="obj" [(ngModel)]="form.advertisingChannelType" name="advertisingChannelType">
+                                    <option *ngFor="let type of channelTypes" value={{type}}>{{type}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="way" class="sr-only">Ways you'd like to reach out: </label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    id="way" [(ngModel)]="form.waysToReach" name="way">
+                                    <option *ngFor="let way of waysToReach" value={{way}}>{{way}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="bid" class="sr-only">Bidding: </label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    id="way" [(ngModel)]="form.biddings" name="bid">
+                                    <option *ngFor="let bid of biddings" value={{bid}}>{{bid}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="acquisition" class="sr-only">Customer Acquisition: </label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    id="acquisition" [(ngModel)]="form.customerAcquisition" name="acquisition">
+                                    <option *ngFor="let acquisition of acquisitions" value={{acquisition}}>
+                                        {{acquisition}}</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group mb-2">
+                                <label for="cpc" class="sr-only">Enhanced Cpc Enabled</label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    [(ngModel)]="form.enhancedCpcEnabled" name="cpc">
+                                    <option value="TRUE">TRUE</option>
+                                    <option value="FALSE">FALSE</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label for="targetGoogleSearch" class="sr-only">Target Google Search: </label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">ON/OFF</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label for="targetSearchNetwork" class="sr-only">Target Search Network</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">ON/OFF</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location">Location :</label>
+                                <input type="location" class="form-control" id="location" aria-describedby="location"
+                                    [(ngModel)]="form.location" name="location">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="segment">Audience segments</label>
+                                <input type="text" class="form-control" id="segment" aria-describedby="segment"
+                                    [(ngModel)]="form.audienceSegment" name="segment">
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label for="matchKeywords" class="sr-only">Use of broad match keywords for entire
+                                    campaign: </label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="matchKeywords">
+                                    <label class="form-check-label" for="matchKeywords">ON/OFF</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label for="assets" class="sr-only">Automatically created assets: </label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="assets">
+                                    <label class="form-check-label" for="assets">ON/OFF</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="rotations">Ad Rotations</label>
+                                <input type="text" class="form-control" id="segment" aria-describedby="rotations"
+                                    [(ngModel)]="form.rotations" name="rotations">
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Start Date</label>
+                                <input type="text" class="form-control" id="date" aria-describedby="date" name="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="date">End Date</label>
+                                <input type="text" class="form-control" id="date" aria-describedby="date" name="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="schedule">Ad Schedule</label>
+                                <input type="text" class="form-control" id="schedule" aria-describedby="schedule"
+                                    [(ngModel)]="form.schedule" name="schedule">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="url">Url Options</label>
+                                <input type="text" class="form-control" id="url" aria-describedby="url"
+                                    [(ngModel)]="form.urlOptions" name="url">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="campaign" class="sr-only">Status</label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    [(ngModel)]="form.status" name="status">
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="PAUSED">PAUSED</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="closeModal()">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="createCampaign()">Add</button>
+                    </div>
+                </div>
+                <div *ngIf="isAdGroupClicked">
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adGroupForm.name" name="name">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="campaign" class="sr-only">Status</label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    [(ngModel)]="adGroupForm.status" name="status">
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="PAUSED">PAUSED</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="closeModal()">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="createAdSets()">Add</button>
+                    </div>
+                </div>
+                <!-- <div *ngIf="isBudgetClicked">
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="budgetForm.name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Delivery Method: </label>
+                                <input type="text" class="form-control" id="link" aria-describedby="link"
+                                    [(ngModel)]="budgetForm.deliveryMethod" name="type">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount: </label>
+                                <input type="text" class="form-control" id="msg" aria-describedby="msg"
+                                    [(ngModel)]="budgetForm.amount" name="amount">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="closeModal()">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="createCampaignBudget()" data-toggle="modal"
+                            (click)="openModal()" data-target="#creativeModalLongTitle">Add</button>
+                    </div>
+                </div> -->
+                <div *ngIf="isAdClicked">
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Business Name: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="logo">Business Logo: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.logo" name="logo">
+                            </div>
+                            <div class="form-group">
+                                <label for="path">Display path: </label>
+                                <input type="text" class="form-control" id="path" aria-describedby="path"
+                                    placeholder="Display Path" [(ngModel)]="adsForm.displayPath" name="path">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="campaign" class="sr-only">Status</label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    [(ngModel)]="adsForm.status" name="status">
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="PAUSED">PAUSED</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="headone">HeadLine 1: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline1" name="headone">
+                            </div>
+                            <div class="form-group">
+                                <label for="headtwo">HeadLine 2: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline2" name="headtwo">
+                            </div>
+                            <div class="form-group">
+                                <label for="head3">HeadLine 3: </label>
+                                <input type="text" class="form-control" id="head3" aria-describedby="name"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline3" name="head3">
+                            </div>
+                            <div class="form-group">
+                                <label for="headfour">HeadLine 4: </label>
+                                <input type="text" class="form-control" id="headfour" aria-describedby="headfour"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline4" name="headfour">
+                            </div>
+                            <div class="form-group">
+                                <label for="headfive">HeadLine 5: </label>
+                                <input type="text" class="form-control" id="headfive" aria-describedby="headfive"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline5" name="headfive">
+                            </div>
+                            <div class="form-group">
+                                <label for="headsix">HeadLine 6: </label>
+                                <input type="text" class="form-control" id="headsix" aria-describedby="headsix"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline6" name="headsix">
+                            </div>
+                            <div class="form-group">
+                                <label for="headseven">HeadLine 7: </label>
+                                <input type="text" class="form-control" id="headseven" aria-describedby="headseven"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline7" name="headseven">
+                            </div>
+                            <div class="form-group">
+                                <label for="headeight">HeadLine 8: </label>
+                                <input type="text" class="form-control" id="headeight" aria-describedby="headeight"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline8" name="headeight">
+                            </div>
+                            <div class="form-group">
+                                <label for="headnine">HeadLine 9: </label>
+                                <input type="text" class="form-control" id="headnine" aria-describedby="headnine"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline9" name="headnine">
+                            </div>
+                            <div class="form-group">
+                                <label for="headten">HeadLine 10: </label>
+                                <input type="text" class="form-control" id="headten" aria-describedby="headten"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline10" name="headten">
+                            </div>
+                            <div class="form-group">
+                                <label for="headeleven">HeadLine 11: </label>
+                                <input type="text" class="form-control" id="headeleven" aria-describedby="headeleven"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline11" name="headeleven">
+                            </div>
+                            <div class="form-group">
+                                <label for="headtwelve">HeadLine 12: </label>
+                                <input type="text" class="form-control" id="headtwelve" aria-describedby="headtwelve"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline12" name="headtwelve">
+                            </div>
+                            <div class="form-group">
+                                <label for="head13">HeadLine 13: </label>
+                                <input type="text" class="form-control" id="head13" aria-describedby="head13"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline13" name="head13">
+                            </div>
+                            <div class="form-group">
+                                <label for="head14">HeadLine 14: </label>
+                                <input type="text" class="form-control" id="head14" aria-describedby="head14"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline14" name="head14">
+                            </div>
+                            <div class="form-group">
+                                <label for="head15">HeadLine 15: </label>
+                                <input type="text" class="form-control" id="head15" aria-describedby="head15"
+                                    placeholder="Enter Headline" [(ngModel)]="adsForm.headline15" name="head15">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="desc1">Description 1: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.description1" name="desc1">
+                            </div>
+                            <div class="form-group">
+                                <label for="desc2">Description 2: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.description2" name="desc2">
+                            </div>
+                            <div class="form-group">
+                                <label for="desc3">Description 3: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.description3" name="desc">
+                            </div>
+                            <div class="form-group">
+                                <label for="desc4">Description 4: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.description4" name="desc4">
+                            </div>
+                            <div class="form-group">
+                                <label for="pathone">Path 1: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.path1" name="pathone">
+                            </div>
+                            <div class="form-group">
+                                <label for="pathtwo">Path 2: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.path2" name="pathtwo">
+                            </div>
+                            <div class="form-group">
+                                <label for="finalurl">Final URL: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.finalUrl" name="finalurl">
+                            </div>
+                            <div class="form-group">
+                                <label for="links">Site Links: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.siteLinks" name="links">
+                            </div>
+                            <div class="form-group">
+                                <label for="callout">Callout :: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.callout" name="callout">
+                            </div>
+                            <div class="form-group">
+                                <label for="extension">Other Extensions: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.otherExtensions" name="extension">
+                            </div>
+                            <div class="form-group">
+                                <label for="adUrlOption">AD URL oprion: </label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" [(ngModel)]="adsForm.adUrlOption" name="adUrlOption">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="closeModal()">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="createAds()">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
