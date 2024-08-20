@@ -1,211 +1,392 @@
 <div class="container">
 
-    <form class="form-inline">
-        <div class="form-group mb-2">
-          <label for="campaign" class="sr-only">Campaigns</label>
-          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="selectedCamapign" name="campaign">
-            <option *ngFor="let campaign of campaigns" value={{campaign.id}}>{{campaign.name}}</option>
-          </select>
-          <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()" (click)="campaignClicked()" data-target="#campaignModalLongTitle">Create Campaign</button>
+  <form class="form-inline">
+    <div class="form-group mb-2">
+      <label for="campaign" class="sr-only">Campaigns Type: </label>
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="campaignType"
+        name="campaignType">
+        <option value="lead">Lead gen</option>
+        <option value="conversion">Conversion</option>
+      </select>
+    </div>
+    <div class="form-group mb-2">
+      <label for="campaign" class="sr-only">Campaigns</label>
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+        [(ngModel)]="selectedCamapign" name="campaign">
+        <option *ngFor="let campaign of campaigns" value={{campaign.id}}>{{campaign.name}}</option>
+      </select>
+      <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
+        (click)="campaignClicked()" data-target="#campaignModalLongTitle">Create Campaign</button>
+    </div>
+
+
+
+    <div class="form-group  mb-2">
+      <label for="adsets" class="sr-only">Ad Sets : </label>
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="selectedAdset"
+        name="adset">
+        <option *ngFor="let adset of adSets" value={{adset.id}}>{{adset.name}}</option>
+      </select>
+      <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
+        (click)="adSetsClicked()" data-target="#campaignModalLongTitle">Create Adsets</button>
+
+    </div>
+
+
+    <div class="form-group mb-2">
+      <label for="adCreatives" class="sr-only">Ad Creatives : </label>
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+        [(ngModel)]="selectedCreative" name="creative">
+        <option *ngFor="let creative of adCreatives" value={{creative.id}}>{{creative.name}}</option>
+      </select>
+      <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
+        (click)="creativeClicked()" data-target="#campaignModalLongTitle">Create Ad Creatives</button>
+    </div>
+
+
+    <div class="form-group mb-2">
+      <label for="ads" class="sr-only">Ads :</label>
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="selectedAd"
+        name="ad">
+        <option *ngFor="let ad of ads" value={{ad.id}}>{{ad.name}}</option>
+      </select>
+      <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
+        (click)="adsClicked()" data-target="#campaignModalLongTitle">Create Ad</button>
+    </div>
+    <div *ngIf="showError" class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">{{errorTitle}}</h4>
+      <p>{{errorMsg}}</p>
+
+
+    </div>
+
+  </form>
+
+  <div class="modal" id="campaignModalLongTitle" tabindex="-1" role="dialog" aria-labelledby="campaignModalLongTitle"
+    aria-hidden="true" [ngStyle]="{'display':display}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isCampaignClicked">Create Campaign</h5>
+          <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isAdsetsClicked">Creta Ad Set</h5>
+          <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isCreativeClicked">Create Ad Campaign</h5>
+          <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isAdClicked">Create Ad</h5>
+          <button type="button" class="close" #closebutton data-dismiss="modal" (click)="closeModal()"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div *ngIf="isCampaignClicked">
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name"
+                  [(ngModel)]="form.name" name="name">
+              </div>
+              <div class="form-group mb-2">
+                <label for="event" class="sr-only">Objectives: </label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="obj"
+                  [(ngModel)]="form.objective" name="obj">
+                  <option *ngFor="let obj of objectives" value={{obj}}>{{obj}}</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="buying" class="sr-only">Buying Type: </label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="buying"
+                  [(ngModel)]="form.buyingType" name="buying">
+                  <option *ngFor="let buyingType of buyingTypes" value={{buyingType}}>{{buyingType}}</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="assets" class="sr-only">Advantage campaign budget: </label>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="assets" [(ngModel)]="form.advCampaignBudget"
+                    name="advCampaignBudget">
+                  <label class="form-check-label" for="assets">ON/OFF</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="sac">Special Ad Category</label>
+                <input type="type" class="form-control" id="sac" [(ngModel)]="form.specialAdCategory" name="sac">
+              </div>
 
-        
-
-        <div class="form-group  mb-2">
-            <label for="adsets" class="sr-only">Ad Sets : </label>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="selectedAdset" name="adset">
-                <option *ngFor="let adset of adSets" value={{adset.id}}>{{adset.name}}</option>
-            </select>
-            <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()" (click)="adSetsClicked()" data-target="#campaignModalLongTitle">Create Adsets</button>
-
+              <div class="form-group mb-2">
+                <label for="campaign" class="sr-only">Status</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="form.status" name="status">
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="PAUSED">PAUSED</option>
+                </select>
+              </div>
+            </form>
           </div>
-          
-
-          <div class="form-group mb-2">
-            <label for="adCreatives" class="sr-only">Ad Creatives : </label>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="selectedCreative" name="creative">
-                <option *ngFor="let creative of adCreatives" value={{creative.id}}>{{creative.name}}</option>
-            </select>
-            <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()" (click)="creativeClicked()" data-target="#campaignModalLongTitle">Create Ad Creatives</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="createCampaign()">Add</button>
           </div>
-          
-
-          <div class="form-group mb-2">
-            <label for="ads" class="sr-only">Ads :</label>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="selectedAd" name="ad">
-                <option *ngFor="let ad of ads" value={{ad.id}}>{{ad.name}}</option>
-            </select>
-            <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()" (click)="adsClicked()" data-target="#campaignModalLongTitle">Create Ad</button>
+        </div>
+        <div *ngIf="isAdsetsClicked">
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="name">Name :</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name"
+                  [(ngModel)]="adSetsForm.name" name="name">
+              </div>
+              <div class="form-group mb-2">
+                <label for="event" class="sr-only">Conversion Location :</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="adSetsForm.conversionLocation" name="event">
+                  <option value="instantForm">Instant Form</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="page">Facebook Page:</label>
+                <input type="text" class="form-control" id="budget" aria-describedby="budget"
+                  [(ngModel)]="adSetsForm.facebookPage" name="page">
+              </div>
+              <div class="form-group">
+                <label for="cost">Cost Per Result Goal (Optional):</label>
+                <input type="number" class="form-control" id="budget" aria-describedby="budget"
+                  [(ngModel)]="adSetsForm.costPerGoal" name="cost">
+              </div>
+              <div class="form-group">
+                <label for="budget">Daily Budget:</label>
+                <input type="number" class="form-control" id="budget" aria-describedby="budget"
+                  [(ngModel)]="adSetsForm.dailyBudget" name="budget">
+              </div>
+              <div class="form-group">
+                <label for="start">Start Date :</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" 
+                  [(ngModel)]="adSetsForm.startDate" name="startDate">
+              </div>
+              <div class="form-group">
+                <label for="end">End Date :</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" 
+                  [(ngModel)]="adSetsForm.endDate" name="endDate">
+              </div>
+              <div class="form-group">
+                <label for="budgetSchdule">Budget scheduling :</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" 
+                  [(ngModel)]="adSetsForm.budgetSchdule" name="budgetSchdule">
+              </div>
+              <div class="form-group">
+                <label for="amt">Bid Amount</label>
+                <input type="number" class="form-control" id="amt" aria-describedby="amt"
+                  [(ngModel)]="adSetsForm.bidAmount" name="amt">
+              </div>
+              <div class="form-group mb-2">
+                <label for="event" class="sr-only">Billing Event</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="adSetsForm.billingEvent" name="event">
+                  <option *ngFor="let event of billingEvent" value={{event}}>{{event}}</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="event" class="sr-only">optimization Goal</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="adSetsForm.optimizationGoal" name="goal">
+                  <option *ngFor="let goal of optimizationGoal" value={{goal}}>{{goal}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="countries">countries</label>
+                <input type="text" class="form-control" id="countries" aria-describedby="countries"
+                  [(ngModel)]="adSetsForm.countries" name="countries">
+              </div>
+              <div class="form-group mb-2">
+                <label for="audience" class="sr-only">Audience control :</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="audienceControl" name="audience">
+                  <option value="false">Saved Audience</option>
+                  <option value="true">New Audience</option>
+                </select>
+              </div>
+              <div class="form-group" *ngIf="audienceControl">
+                <label for="loc">Location:</label>
+                <input type="text" class="form-control" id="loc" aria-describedby="loc"
+                  [(ngModel)]="adSetsForm.newAudience.location" name="page">
+              </div>
+              <div class="form-group" *ngIf="audienceControl">
+                <label for="age">Age:</label>
+                <input type="number" class="form-control" id="budget" aria-describedby="age"
+                  [(ngModel)]="adSetsForm.newAudience.age" name="age">
+              </div>
+              <div class="form-group" *ngIf="audienceControl">
+                <label for="gender">Gender:</label>
+                <input type="text" class="form-control" id="budget" aria-describedby="gender"
+                  [(ngModel)]="adSetsForm.newAudience.gender" name="gender">
+              </div>
+              <div class="form-group mb-2">
+                <label for="targeting" class="sr-only">Detailed Targeting: </label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="adSetsForm.detailedTargeting" name="targeting">
+                  <option *ngFor="let target of detailedTargeting" value={{target}}>{{target}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="language">Language :</label>
+                <input type="text" class="form-control" id="language" aria-describedby="language"
+                  [(ngModel)]="adSetsForm.language" name="language">
+              </div>
+              <div class="form-group">
+                <label for="placements">Placements :</label>
+                <input type="text" class="form-control" id="placements" aria-describedby="placements"
+                  [(ngModel)]="adSetsForm.placements" name="placements">
+              </div>
+              <div class="form-group mb-2">
+                <label for="campaign" class="sr-only">Status</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="adsForm.status" name="status">
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="PAUSED">PAUSED</option>
+                </select>
+              </div>
+            </form>
           </div>
-          <div *ngIf="showError" class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">{{errorTitle}}</h4>
-            <p>{{errorMsg}}</p>
-
-           
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="createAdSets()">Add</button>
           </div>
-         
-      </form>
-
-      <div class="modal" id="campaignModalLongTitle" tabindex="-1" role="dialog" aria-labelledby="campaignModalLongTitle" aria-hidden="true" [ngStyle]="{'display':display}">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isCampaignClicked">Create Campaign</h5>
-              <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isAdsetsClicked">Creta Ad Set</h5>
-              <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isCreativeClicked">Create Ad Campaign</h5>
-              <h5 class="modal-title" id="campaignModalLongTitle" *ngIf="isAdClicked">Create Ad</h5>
-              <button type="button" class="close" #closebutton data-dismiss="modal" (click)="closeModal()" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div *ngIf="isCampaignClicked">
-              <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                      <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name" [(ngModel)]="form.name" name="name">
-                    </div>
-                    <div class="form-group mb-2">
-                      <label for="event" class="sr-only">Objectives: </label>
-                      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="obj" [(ngModel)]="form.objective"  name="obj">
-                        <option  *ngFor="let obj of objectives" value={{obj}}>{{obj}}</option>
-                      </select>
-                    </div>
-                    <div class="form-group mb-2">
-                      <label for="buying" class="sr-only">Buying Type: </label>
-                      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="buying" [(ngModel)]="form.buyingType"  name="buying">
-                        <option  *ngFor="let buyingType of buyingTypes" value={{buyingType}}>{{buyingType}}</option>
-                      </select>
-                    </div>
-                    <div class="form-group mb-2">
-                      <label for="assets" class="sr-only">Advantage campaign budget: </label>
-                      <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox" id="assets" [(ngModel)]="form.advCampaignBudget" name="advCampaignBudget">
-                          <label class="form-check-label" for="assets">ON/OFF</label>
-                      </div>
-                  </div>
-                    <div class="form-group">
-                        <label for="sac">Special Ad Category</label>
-                        <input type="type" class="form-control" id="sac" [(ngModel)]="form.specialAdCategory"  name="sac">
-                      </div>
-
-                      <div class="form-group mb-2">
-                        <label for="campaign" class="sr-only">Status</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="form.status" name="status">
-                          <option  value="ACTIVE">ACTIVE</option>
-                          <option  value="PAUSED">PAUSED</option>
-                        </select>
-                      </div>
-                  </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
-              <button type="button" class="btn btn-primary" (click)="createCampaign()">Add</button>
-            </div>
-            </div>
-            <div *ngIf="isAdsetsClicked">
-              <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                      <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name" [(ngModel)]="adSetsForm.name" name="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="budget">Daily Budget</label>
-                        <input type="number" class="form-control" id="budget" aria-describedby="budget"  [(ngModel)]="adSetsForm.dailyBudget" name="budget">
-                      </div>
-                      <div class="form-group">
-                        <label for="amt">Bid Amount</label>
-                        <input type="number" class="form-control" id="amt" aria-describedby="amt"  [(ngModel)]="adSetsForm.bidAmount" name="amt">
-                      </div>
-                      <div class="form-group mb-2">
-                        <label for="event" class="sr-only">Billing Event</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="adSetsForm.billingEvent" name="event">
-                          <option  *ngFor="let event of billingEvent" value={{event}}>{{event}}</option>
-                        </select>
-                      </div>
-                      <div class="form-group mb-2">
-                        <label for="event" class="sr-only">optimization Goal</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="adSetsForm.optimizationGoal" name="goal">
-                          <option  *ngFor="let goal of optimizationGoal" value={{goal}}>{{goal}}</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="countries">countries</label>
-                        <input type="text" class="form-control" id="countries" aria-describedby="countries"  [(ngModel)]="adSetsForm.countries" name="countries">
-                      </div>
-                      <div class="form-group mb-2">
-                        <label for="campaign" class="sr-only">Status</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="adsForm.status" name="status">
-                          <option  value="ACTIVE">ACTIVE</option>
-                          <option  value="PAUSED">PAUSED</option>
-                        </select>
-                      </div>
-                  </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
-              <button type="button" class="btn btn-primary" (click)="createAdSets()">Add</button>
-            </div>
-            </div>
-            <div *ngIf="isCreativeClicked">
-              <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                      <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name" [(ngModel)]="adCreativeForm.name" name="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="link">Link</label>
-                        <input type="text" class="form-control" id="link" aria-describedby="link" [(ngModel)]="adCreativeForm.link" name="link">
-                      </div>
-                      <div class="form-group">
-                        <label for="msg">Message</label>
-                        <input type="text" class="form-control" id="msg" aria-describedby="msg"  [(ngModel)]="adCreativeForm.message" name="msg">
-                      </div>
-                      <div class="form-group mb-2">
-                        <label for="es" class="sr-only">Enroll Status</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="adCreativeForm.enrollStatus" name="es">
-                          <option  value="OPT_IN">Optrin</option>
-                          <option  value="OPT_OUT">OPt Out</option>
-                        </select>
-                      </div>
-                      <div class="form-group mb-2">
-                        <label for="status" class="sr-only">Status</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="adCreativeForm.status" name="status">
-                          <option  value="ACTIVE">ACTIVE</option>
-                          <option  value="PAUSED">PAUSED</option>
-                        </select>
-                      </div>
-                  </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
-              <button type="button" class="btn btn-primary" (click)="createAdCreative()" data-toggle="modal" (click)="openModal()" data-target="#creativeModalLongTitle">Add</button>
-            </div>
-            </div>
-            <div *ngIf="isAdClicked">
-              <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                      <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name" [(ngModel)]="adsForm.name" name="name">
-                    </div>
-                      <div class="form-group mb-2">
-                        <label for="campaign" class="sr-only">Status</label>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="adsForm.status" name="status">
-                          <option  value="ACTIVE">ACTIVE</option>
-                          <option  value="PAUSED">PAUSED</option>
-                        </select>
-                      </div>
-                  </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
-              <button type="button" class="btn btn-primary" (click)="createAds()">Add</button>
-            </div>
-            </div>
+        </div>
+        <div *ngIf="isCreativeClicked">
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name"
+                  [(ngModel)]="adCreativeForm.name" name="name">
+              </div>
+              <div class="form-group">
+                <label for="callToAction">Call To Action:</label>
+                <input type="text" class="form-control" id="callToAction" aria-describedby="callToAction"
+                  [(ngModel)]="adCreativeForm.callToAction" name="callToAction">
+              </div>
+              <div class="form-group">
+                <label for="media">Media:</label>
+                <input type="text" class="form-control" id="media" aria-describedby="media"
+                  [(ngModel)]="adCreativeForm.media" name="media">
+              </div>
+              <div class="form-group">
+                <label for="primaryText">Primary Text:</label>
+                <input type="text" class="form-control" id="primaryText" aria-describedby="primaryText"
+                  [(ngModel)]="adCreativeForm.primaryText" name="primaryText">
+              </div>
+              <div class="form-group">
+                <label for="headline">Headline:</label>
+                <input type="text" class="form-control" id="headline" aria-describedby="headline" 
+                  [(ngModel)]="adCreativeForm.headline" name="headline">
+              </div>
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" class="form-control" id="description" aria-describedby="description" 
+                  [(ngModel)]="adCreativeForm.description" name="description">
+              </div>
+              <div class="form-group">
+                <label for="link">Link</label>
+                <input type="text" class="form-control" id="link" aria-describedby="link"
+                  [(ngModel)]="adCreativeForm.link" name="link">
+              </div>
+              <div class="form-group">
+                <label for="msg">Message</label>
+                <input type="text" class="form-control" id="msg" aria-describedby="msg"
+                  [(ngModel)]="adCreativeForm.message" name="msg">
+              </div>
+              <div class="form-group mb-2">
+                <label for="es" class="sr-only">Enroll Status</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="adCreativeForm.enrollStatus" name="es">
+                  <option value="OPT_IN">Optin</option>
+                  <option value="OPT_OUT">OptOut</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="status" class="sr-only">Status</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="adCreativeForm.status" name="status">
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="PAUSED">PAUSED</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="createAdCreative()" data-toggle="modal"
+              (click)="openModal()" data-target="#creativeModalLongTitle">Add</button>
+          </div>
+        </div>
+        <div *ngIf="isAdClicked">
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name"
+                  [(ngModel)]="adsForm.name" name="name">
+              </div>
+              <div class="form-group mb-2">
+                <label for="partnershipAd" class="sr-only">Partnership Ad: </label>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="assets" [(ngModel)]="adsForm.partnershipAd"
+                    name="partnershipAd">
+                  <label class="form-check-label" for="partnershipAd">ON/OFF</label>
+                </div>
+              </div>
+              <div class="form-group mb-2">
+                <label for="identity" class="sr-only">Identity:</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="identity">
+                  <option value="Facebook">Facebook</option>
+                  <option value="Instagram">Instagram</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="adSetup" class="sr-only">Ad setup:</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="adSetup">
+                  
+                  <option value="single">Single image or video</option>
+                  <option value="Carousel">Carousel</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="adv" class="sr-only">Advantage + creative: </label>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="adv"
+                    name="partnershipAd">
+                  <label class="form-check-label" for="adv">ON/OFF</label>
+                </div>
+              </div>
+              <div class="form-group mb-2">
+                <label for="dest" class="sr-only">Destination:</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="dest">
+                  
+                  <option value="form">Instant Form</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="tracking" class="sr-only">Tracking:</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tracking">
+                  
+                  <option value="crm">CRM events</option>
+                  <option value="url">URL Parameters</option>
+                </select>
+              </div>
+              <div class="form-group mb-2">
+                <label for="campaign" class="sr-only">Status</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                  [(ngModel)]="adsForm.status" name="status">
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="PAUSED">PAUSED</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="createAds()">Add</button>
           </div>
         </div>
       </div>
+    </div>
+  </div>
 </div>

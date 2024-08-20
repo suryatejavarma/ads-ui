@@ -26,6 +26,8 @@ export class AdsComponentComponent implements OnInit {
   selectedCamapign: any = '';
   selectedAdset: any = '';
   selectedAd: any = '';
+  campaignType: any = '';
+  audienceControl: any = false;
   form = {
     name: '',
     status: '',
@@ -38,6 +40,7 @@ export class AdsComponentComponent implements OnInit {
 
   adSetsForm = {
     name: '',
+    conversionLocation: '',
     dailyBudget: '',
     bidAmount: '',
     billingEvent: '',
@@ -45,6 +48,19 @@ export class AdsComponentComponent implements OnInit {
     campaignId: '',
     status: '',
     countries: '',
+    facebookPage: '',
+    costPerGoal: '',
+    budgetSchdule: '',
+    startDate: '',
+    endDate: '',
+    newAudience: {
+      location: '',
+      age: 0,
+      gender: ''
+    },
+    detailedTargeting: '',
+    placements: '',
+    language: ''
   };
 
   adCreativeForm = {
@@ -53,6 +69,11 @@ export class AdsComponentComponent implements OnInit {
     message: '',
     enrollStatus: '',
     status: '',
+    media: '',
+    callToAction: '',
+    primaryText: '',
+    headline: '',
+    description: ''
   };
 
   adsForm = {
@@ -60,6 +81,8 @@ export class AdsComponentComponent implements OnInit {
     adsetId: '',
     creativeId: '',
     status: '',
+    partnershipAd: '',
+
   };
 
   objectives = [
@@ -86,7 +109,9 @@ export class AdsComponentComponent implements OnInit {
     'LINK_CLICKS',
     'LEAD_GENERATION',
   ];
-  buyingTypes = ['Auction', 'Reservation']
+  buyingTypes = ['Auction', 'Reservation'];
+  detailedTargeting = ['All Demographics', 'Interests', 'Behaviour'];
+
   constructor(private adsService: AdsServiceService) {}
 
   ngOnInit(): void {
