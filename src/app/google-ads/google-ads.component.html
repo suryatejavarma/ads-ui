@@ -17,7 +17,8 @@
             <label for="campaign" class="sr-only">Campaigns</label>
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                 [(ngModel)]="selectedCamapign" name="campaign">
-                <option *ngFor="let campaign of campaigns" value={{campaign.campaign.id}}>{{campaign.campaign.name}}</option>
+                <option *ngFor="let campaign of campaigns" value={{campaign.campaign.id}}>{{campaign.campaign.name}}
+                </option>
             </select>
             <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
                 (click)="campaignClicked()" data-target="#campaignModalLongTitle">Create Campaign</button>
@@ -40,7 +41,7 @@
             <label for="ads" class="sr-only">Ads :</label>
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                 [(ngModel)]="selectedAd" name="ad">
-                <option *ngFor="let ad of ads" value={{ad.ad.id}}>{{ad.ad.name}}</option>
+                <option *ngFor="let ad of ads" value={{ad.ad.id}}>{{ad.ad.id}}</option>
             </select>
             <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" (click)="openModal()"
                 (click)="adsClicked()" data-target="#campaignModalLongTitle">Create Ad</button>
@@ -165,9 +166,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="segment">Audience segments</label>
-                                <input type="text" class="form-control" id="segment" aria-describedby="segment"
-                                    [(ngModel)]="form.audienceSegment" name="segment">
+                                <label for="segment">Audience segments:</label>
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                    id="segment" name="segment">
+                                    <option *ngFor="let segment of audienceSegment" value={{segment}}>
+                                        {{segment}}</option>
+                                </select>
                             </div>
 
                             <div class="form-group mb-2">
@@ -189,8 +193,11 @@
 
                             <div class="form-group">
                                 <label for="rotations">Ad Rotations</label>
-                                <input type="text" class="form-control" id="segment" aria-describedby="rotations"
+                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                     [(ngModel)]="form.rotations" name="rotations">
+                                    <option value="optimize">Optimize</option>
+                                    <option value="doNotOptimze">Do not optimize</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="date">Start Date</label>
@@ -231,12 +238,17 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <label for="name">Name</label>
+                                <label for="name">Name:</label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
                                     placeholder="Enter Name" [(ngModel)]="adGroupForm.name" name="name">
                             </div>
+                            <div class="form-group">
+                                <label for="name">Keywords:</label>
+                                <input type="text" class="form-control" id="name" aria-describedby="name"
+                                    placeholder="Enter Name" name="keywords">
+                            </div>
                             <div class="form-group mb-2">
-                                <label for="campaign" class="sr-only">Status</label>
+                                <label for="campaign" class="sr-only">Status:</label>
                                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                                     [(ngModel)]="adGroupForm.status" name="status">
                                     <option value="ACTIVE">ACTIVE</option>
@@ -289,7 +301,7 @@
                             <div class="form-group">
                                 <label for="logo">Business Logo: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.logo" name="logo">
+                                    [(ngModel)]="adsForm.logo" name="logo">
                             </div>
                             <div class="form-group">
                                 <label for="path">Display path: </label>
@@ -383,57 +395,57 @@
                             <div class="form-group">
                                 <label for="desc1">Description 1: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.description1" name="desc1">
+                                    placeholder="Enter description" [(ngModel)]="adsForm.description1" name="desc1">
                             </div>
                             <div class="form-group">
                                 <label for="desc2">Description 2: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.description2" name="desc2">
+                                    placeholder="Enter description" [(ngModel)]="adsForm.description2" name="desc2">
                             </div>
                             <div class="form-group">
                                 <label for="desc3">Description 3: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.description3" name="desc">
+                                    placeholder="Enter description" [(ngModel)]="adsForm.description3" name="desc">
                             </div>
                             <div class="form-group">
                                 <label for="desc4">Description 4: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.description4" name="desc4">
+                                    placeholder="Enter description" [(ngModel)]="adsForm.description4" name="desc4">
                             </div>
                             <div class="form-group">
                                 <label for="pathone">Path 1: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.path1" name="pathone">
+                                    placeholder="Enter path" [(ngModel)]="adsForm.path1" name="pathone">
                             </div>
                             <div class="form-group">
                                 <label for="pathtwo">Path 2: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.path2" name="pathtwo">
+                                    placeholder="Enter Path" [(ngModel)]="adsForm.path2" name="pathtwo">
                             </div>
                             <div class="form-group">
                                 <label for="finalurl">Final URL: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.finalUrl" name="finalurl">
+                                    placeholder="Final Url" [(ngModel)]="adsForm.finalUrl" name="finalurl">
                             </div>
                             <div class="form-group">
                                 <label for="links">Site Links: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.siteLinks" name="links">
+                                    [(ngModel)]="adsForm.siteLinks" name="links">
                             </div>
                             <div class="form-group">
-                                <label for="callout">Callout :: </label>
+                                <label for="callout">Callout :</label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.callout" name="callout">
+                                    [(ngModel)]="adsForm.callout" name="callout">
                             </div>
                             <div class="form-group">
                                 <label for="extension">Other Extensions: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.otherExtensions" name="extension">
+                                    [(ngModel)]="adsForm.otherExtensions" name="extension">
                             </div>
                             <div class="form-group">
-                                <label for="adUrlOption">AD URL oprion: </label>
+                                <label for="adUrlOption">AD URL option: </label>
                                 <input type="text" class="form-control" id="name" aria-describedby="name"
-                                    placeholder="Enter Name" [(ngModel)]="adsForm.adUrlOption" name="adUrlOption">
+                                    [(ngModel)]="adsForm.adUrlOption" name="adUrlOption">
                             </div>
                         </form>
                     </div>

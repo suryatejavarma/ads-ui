@@ -1,9 +1,9 @@
 <ul class="nav justify-content-center">
     <li class="nav-item">
-      <a class="nav-link active" aria-current="page" (click)="facebookAds()">FaceBook Ads</a>
+      <a class="nav-link" [ngClass]="{active: isFacebookSelected}" aria-current="page" (click)="facebookAds()">FaceBook Ads</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" (click)="googleAds()">Google Ads</a>
+      <a class="nav-link" [ngClass]="{active: !isFacebookSelected}" (click)="googleAds()">Google Ads</a>
     </li>
   </ul>
 

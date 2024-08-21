@@ -7,13 +7,16 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'ads-angular-app';
+  isFacebookSelected: any = true;
   constructor(private router: Router) {}
 
   facebookAds() {
+    this.isFacebookSelected = true;
     this.router.navigate([''])
   }
 
   googleAds() {
+    this.isFacebookSelected = false;
     this.router.navigate(['googleAds'])
   }
 }
