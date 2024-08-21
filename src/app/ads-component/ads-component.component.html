@@ -3,7 +3,7 @@
   <form class="form-inline">
     <div class="form-group mb-2">
       <label for="campaign" class="sr-only">Campaigns Type: </label>
-      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="campaignType"
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="campaignType" (change)="test()"
         name="campaignType">
         <option value="lead">Lead gen</option>
         <option value="conversion">Conversion</option>
@@ -134,17 +134,42 @@
                 <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Enter Name"
                   [(ngModel)]="adSetsForm.name" name="name">
               </div>
-              <div class="form-group mb-2">
-                <label for="event" class="sr-only">Conversion Location :</label>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                  [(ngModel)]="adSetsForm.conversionLocation" name="event">
-                  <option value="instantForm">Instant Form</option>
-                </select>
+              <div *ngIf="isLeadCampaign">
+                <div class="form-group mb-2">
+                  <label for="event" class="sr-only">Conversion Location :</label>
+                  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    [(ngModel)]="adSetsForm.conversionLocation" name="event">
+                    <option value="instantForm">Instant Form</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="page">Facebook Page:</label>
+                  <input type="text" class="form-control" id="budget" aria-describedby="budget"
+                    [(ngModel)]="adSetsForm.facebookPage" name="page">
+                </div>
               </div>
-              <div class="form-group">
-                <label for="page">Facebook Page:</label>
-                <input type="text" class="form-control" id="budget" aria-describedby="budget"
-                  [(ngModel)]="adSetsForm.facebookPage" name="page">
+              <div *ngIf="!isLeadCampaign">
+                <div class="form-group mb-2">
+                  <label for="event" class="sr-only">Conversion Location :</label>
+                  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    [(ngModel)]="adSetsForm.conversionLocation" name="event">
+                    <option value="Website">Website</option>
+                  </select>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="goal" class="sr-only">Performance Goal :</label>
+                  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="goal">
+                    <option value="Maximum">Maximum number of conversations</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="pixel">Pixel :</label>
+                  <input type="text" class="form-control" id="pixel" aria-describedby="pixel" name="pixel">
+                </div>
+                <div class="form-group">
+                  <label for="event">Conversion Event :</label>
+                  <input type="text" class="form-control" id="event" aria-describedby="event" name="evemt">
+                </div>
               </div>
               <div class="form-group">
                 <label for="cost">Cost Per Result Goal (Optional):</label>
@@ -158,17 +183,17 @@
               </div>
               <div class="form-group">
                 <label for="start">Start Date :</label>
-                <input type="text" class="form-control" id="name" aria-describedby="name" 
+                <input type="text" class="form-control" id="name" aria-describedby="name"
                   [(ngModel)]="adSetsForm.startDate" name="startDate">
               </div>
               <div class="form-group">
                 <label for="end">End Date :</label>
-                <input type="text" class="form-control" id="name" aria-describedby="name" 
+                <input type="text" class="form-control" id="name" aria-describedby="name"
                   [(ngModel)]="adSetsForm.endDate" name="endDate">
               </div>
               <div class="form-group">
                 <label for="budgetSchdule">Budget scheduling :</label>
-                <input type="text" class="form-control" id="name" aria-describedby="name" 
+                <input type="text" class="form-control" id="name" aria-describedby="name"
                   [(ngModel)]="adSetsForm.budgetSchdule" name="budgetSchdule">
               </div>
               <div class="form-group">
@@ -198,22 +223,22 @@
               <div class="form-group mb-2">
                 <label for="audience" class="sr-only">Audience control :</label>
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                  [(ngModel)]="audienceControl" name="audience">
-                  <option value="false">Saved Audience</option>
-                  <option value="true">New Audience</option>
+                  [(ngModel)]="audienceControl" name="audience" (change)="changeAudience()">
+                  <option value="saved">Saved Audience</option>
+                  <option value="new">New Audience</option>
                 </select>
               </div>
-              <div class="form-group" *ngIf="audienceControl">
+              <div class="form-group" *ngIf="isNewAudienceControl">
                 <label for="loc">Location:</label>
                 <input type="text" class="form-control" id="loc" aria-describedby="loc"
                   [(ngModel)]="adSetsForm.newAudience.location" name="page">
               </div>
-              <div class="form-group" *ngIf="audienceControl">
+              <div class="form-group" *ngIf="isNewAudienceControl">
                 <label for="age">Age:</label>
                 <input type="number" class="form-control" id="budget" aria-describedby="age"
                   [(ngModel)]="adSetsForm.newAudience.age" name="age">
               </div>
-              <div class="form-group" *ngIf="audienceControl">
+              <div class="form-group" *ngIf="isNewAudienceControl">
                 <label for="gender">Gender:</label>
                 <input type="text" class="form-control" id="budget" aria-describedby="gender"
                   [(ngModel)]="adSetsForm.newAudience.gender" name="gender">
@@ -275,12 +300,12 @@
               </div>
               <div class="form-group">
                 <label for="headline">Headline:</label>
-                <input type="text" class="form-control" id="headline" aria-describedby="headline" 
+                <input type="text" class="form-control" id="headline" aria-describedby="headline"
                   [(ngModel)]="adCreativeForm.headline" name="headline">
               </div>
               <div class="form-group">
                 <label for="description">Description:</label>
-                <input type="text" class="form-control" id="description" aria-describedby="description" 
+                <input type="text" class="form-control" id="description" aria-describedby="description"
                   [(ngModel)]="adCreativeForm.description" name="description">
               </div>
               <div class="form-group">
@@ -343,7 +368,7 @@
               <div class="form-group mb-2">
                 <label for="adSetup" class="sr-only">Ad setup:</label>
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="adSetup">
-                  
+
                   <option value="single">Single image or video</option>
                   <option value="Carousel">Carousel</option>
                 </select>
@@ -351,22 +376,21 @@
               <div class="form-group mb-2">
                 <label for="adv" class="sr-only">Advantage + creative: </label>
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="adv"
-                    name="partnershipAd">
+                  <input class="form-check-input" type="checkbox" id="adv" name="partnershipAd">
                   <label class="form-check-label" for="adv">ON/OFF</label>
                 </div>
               </div>
               <div class="form-group mb-2">
                 <label for="dest" class="sr-only">Destination:</label>
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="dest">
-                  
+
                   <option value="form">Instant Form</option>
                 </select>
               </div>
               <div class="form-group mb-2">
                 <label for="tracking" class="sr-only">Tracking:</label>
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tracking">
-                  
+
                   <option value="crm">CRM events</option>
                   <option value="url">URL Parameters</option>
                 </select>
