@@ -27,7 +27,8 @@ export class AdsComponentComponent implements OnInit {
   selectedAdset: any = '';
   selectedAd: any = '';
   campaignType: any = '';
-  audienceControl: any = false;
+  audienceControl: any;
+  isLeadCampaign: boolean = false;
   form = {
     name: '',
     status: '',
@@ -37,7 +38,7 @@ export class AdsComponentComponent implements OnInit {
     advCampaignBudget: ''
   };
   display = 'none';
-
+  isNewAudienceControl: boolean = false;
   adSetsForm = {
     name: '',
     conversionLocation: '',
@@ -129,6 +130,13 @@ export class AdsComponentComponent implements OnInit {
     });
   }
 
+  test() {
+    console.log('----->in test')
+    this.isLeadCampaign = this.campaignType == 'lead'? true : false;
+  }
+  changeAudience() {
+    this.isNewAudienceControl = this.audienceControl == 'new'? true: false
+  }
   showCampaignModal() {
     this.showCampaign = true;
   }
