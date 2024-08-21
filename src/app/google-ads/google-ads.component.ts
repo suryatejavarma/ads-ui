@@ -100,6 +100,14 @@ export class GoogleAdsComponent {
     'SHOPPING',
     'HOTEL',
   ];
+  audienceSegment = [
+    'VIDEO',
+    'SEARCH',
+    'DISPLAY',
+    'SHOPPING',
+    'HOTEL',
+    'DEMAND GEN'
+  ];
   objective = ['Leads'];
   waysToReach = ['Website visits', 'Phone calls', 'Lead From Submmisions'];
   biddings = ['Conversion', 'Clicks', 'Impression share'];
